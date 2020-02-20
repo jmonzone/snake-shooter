@@ -72,7 +72,7 @@ public class LevelManager : MonoBehaviour
         Level = Level;
     }
 
-    private void OnEnemyDefeated()
+    private void OnEnemyDefeated(Enemy enemy)
     {
         Progress++;
     }

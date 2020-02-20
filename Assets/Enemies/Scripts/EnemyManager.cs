@@ -18,7 +18,7 @@ public class EnemyManager : MonoBehaviour
 
     private Coroutine spawnCoroutine;
 
-    public event Action OnEnemyDefeated;
+    public event Action<Enemy> OnEnemyDefeated;
 
     private void Awake()
     {
@@ -51,7 +51,7 @@ public class EnemyManager : MonoBehaviour
 
         enemy.Health.OnHealthZero += () =>
         {
-            OnEnemyDefeated?.Invoke();
+            OnEnemyDefeated?.Invoke(enemy);
         };
     }
 
@@ -85,7 +85,7 @@ public class EnemyManager : MonoBehaviour
             enemy.Health.Max = enemy.Health.BaseMax + enemy.Health.Growth * level;
         });
 
-        spawnDelay =  1.0f / (level * 1.07f);
+        spawnDelay =  1.0f / (1 + (level * 0.01f));
 
         spawnCoroutine = StartCoroutine(EnemySpawnUpdate(level));
     }

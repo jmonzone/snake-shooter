@@ -3,28 +3,43 @@ using UnityEngine;
 
 public class HealthManager : MonoBehaviour
 {
-    [Header("Options")]
-    [SerializeField] private int health;
+    [Header("References")]
+    [SerializeField] private GameOverManager gameOverManager;
+
+    private int maxHealth = 10;
+
+    private int currentHealth;
 
     public event Action<int> OnHealthChanged;
     public event Action OnHealthZero;
 
+    private void Start()
+    {
+        gameOverManager.OnRevive += ReplenishHealth;
+
+        Health = maxHealth;
+    }
 
     public int Health
     {
-        get => health;
+        get => currentHealth;
         private set
         {
-            if (value <= 0) health = 0;
-            else health = value;
+            if (value <= 0) currentHealth = 0;
+            else currentHealth = value;
 
-            OnHealthChanged?.Invoke(health);
+            OnHealthChanged?.Invoke(currentHealth);
 
-            if(health == 0)
+            if(currentHealth == 0)
             {
                 OnHealthZero?.Invoke();
             }
         }
+    }
+
+    private void ReplenishHealth()
+    {
+        Health = maxHealth;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

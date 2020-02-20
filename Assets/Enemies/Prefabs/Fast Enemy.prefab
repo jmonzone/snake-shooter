@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseMax: 1
-  growth: 0.5
+  growth: 0.25
 --- !u!114 &5192693745557872743
 MonoBehaviour:
   m_ObjectHideFlags: 0

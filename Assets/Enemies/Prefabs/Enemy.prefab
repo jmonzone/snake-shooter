@@ -147,9 +147,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03f29ed430d9941e49a4891bbe353e5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 3
-  max: 3
-  growth: 1
+  baseMax: 3
+  growth: 2
 --- !u!114 &5316344457558122710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,7 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee5bb4ca3bfb94b42b1abc400c0f1da4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 1
+  baseValue: 1
   growth: 0.1
 --- !u!114 &6652413590937148320
 MonoBehaviour:

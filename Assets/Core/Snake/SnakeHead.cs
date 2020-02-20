@@ -20,6 +20,7 @@ public class SnakeHead : SnakeNode
     public bool canMove = true;
 
     public event Action OnEnemyCollision;
+    public event Action OnCurrencyPickedUp;
 
     protected override void Update()
     {
@@ -44,6 +45,12 @@ public class SnakeHead : SnakeNode
         if (collision.gameObject.CompareTag("Enemy"))
         {
             OnEnemyCollision?.Invoke();
+        }
+
+        if (collision.gameObject.CompareTag("Currency"))
+        {
+            collision.gameObject.SetActive(false);
+            OnCurrencyPickedUp?.Invoke();
         }
     }
 }
