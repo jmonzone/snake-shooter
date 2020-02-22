@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Core/Scenes/Game Scene.unity
+    path: Assets/Snake Shooter/Scenes/Home Scene.unity
+    guid: eb488de1c0d38428ebd4549a0849ff44
+  - enabled: 1
+    path: Assets/Snake Shooter/Scenes/Game Scene.unity
     guid: fe8dfd06a65114f8ca5e5a76a3c125fb
+  - enabled: 1
+    path: Assets/Snake Shooter/Scenes/Shop Scene.unity
+    guid: e9feecbc117f44bb7bb185ce681ebea1
   m_configObjects: {}
