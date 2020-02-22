@@ -1,12 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class ShopItemDisabler : MonoBehaviour
 {
     private ShopItemManager shopItemManager;
-
 
     private void Awake()
     {
@@ -23,7 +19,7 @@ public class ShopItemDisabler : MonoBehaviour
     {
         var playerOwnsUnlockable = PlayerPrefs.HasKey(unlockableTower.Key);
 
-        shopItemManager.PurchaseButton.interactable = !playerOwnsUnlockable;
+        shopItemManager.PurchaseButton.Button.interactable = !playerOwnsUnlockable;
 
         var image = shopItemManager.ItemImage;
         var alpha = playerOwnsUnlockable ? 0.5f : 1;

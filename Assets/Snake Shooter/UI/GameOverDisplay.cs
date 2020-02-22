@@ -17,7 +17,7 @@ public class GameOverDisplay : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private GameObject display;
-    [SerializeField] private Button revive;
+    [SerializeField] private RewardedAdsButton rewardedAdsButton;
     [SerializeField] private Text countdown;
 
     private const int COUNTDOWN_TIMER = 5;
@@ -28,10 +28,14 @@ public class GameOverDisplay : MonoBehaviour
     {
         GameOverManager.OnGameOver += OnGameOver;
 
-        revive.onClick.AddListener(() =>
+        rewardedAdsButton.OnAdFinished += () =>
+        {
+            OnReviveButtonClicked?.Invoke();
+        };
+
+        rewardedAdsButton.Button.onClick.AddListener(() =>
         {
             StopAllCoroutines();
-            OnReviveButtonClicked?.Invoke();
             display.SetActive(false);
         });
     }

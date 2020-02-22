@@ -20,18 +20,16 @@ public class CurrencyDisplay : MonoBehaviour
 
     private void OnEnable()
     {
-        ShopCurrencyManager.OnCurrencyCountChanged += UpdateDisplay;
+         Currency.OnCurrencyCountChanged += UpdateDisplay;
     }
 
     private void OnDisable()
     {
-        ShopCurrencyManager.OnCurrencyCountChanged -= UpdateDisplay;
-
+        Currency.OnCurrencyCountChanged -= UpdateDisplay;
     }
 
     private void UpdateDisplay(int count)
     {
         text.text = count.ToString() ;
-
     }
 }
