@@ -19,10 +19,16 @@ public class CurrencySpawner : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void OnEnable()
     {
         EnemyManager.OnEnemyDefeated += DropCurrency;
     }
+
+    private void OnDisable()
+    {
+        EnemyManager.OnEnemyDefeated -= DropCurrency;
+    }
+
 
     private void CreateCurrency()
     {

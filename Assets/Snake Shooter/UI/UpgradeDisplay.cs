@@ -17,9 +17,18 @@ public class UpgradeDisplay : MonoBehaviour
     private void Awake()
     {
         buttonsParent.GetComponentsInChildren(buttons);
+    }
 
+    private void OnEnable()
+    {
         UpgradeManager.OnUpgradesRandomlySelected += InitButtons;
         GameOverManager.OnGameOver += OnGameOver;
+    }
+
+    private void OnDisable()
+    {
+        UpgradeManager.OnUpgradesRandomlySelected -= InitButtons;
+        GameOverManager.OnGameOver -= OnGameOver;
     }
 
     private void InitButtons(List<ScriptableTower> towers)

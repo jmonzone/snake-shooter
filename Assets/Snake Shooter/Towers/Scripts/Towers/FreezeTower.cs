@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class FreezeTower : LaserTower
 {
-    protected override float Range => 2.0f;
-    protected override float AttackSpeed => 1.5f;
+    //protected override float Range => 2.0f;
+    protected override float AttackSpeed => 0.70f;
 
-    private readonly float slowValue = 0.7f;
+    private readonly float slowValue = 0.25f;
     private readonly float slowDuration = 3.0f;
 
     private readonly List<Enemy> hitEnemies = new List<Enemy>();

@@ -10,14 +10,14 @@ public class RewardedAdsButton : MonoBehaviour, IUnityAdsListener
 #if UNITY_IOS
     private string gameId = "3479909";
 #endif
-    private string myPlacementId = "rewardedVideo";
+    private string myPlacementId = Ads.REWARDED_AD;
 
     public Button Button { get; private set; }
 
     public event Action OnAdFinished;
 
 
-    private void Start()
+    private void Awake()
     {
         Button = GetComponent<Button>();
 
@@ -44,7 +44,7 @@ public class RewardedAdsButton : MonoBehaviour, IUnityAdsListener
         // If the ready Placement is rewarded, activate the button: 
         if (placementId == myPlacementId)
         {
-            Button.interactable = true;
+            if(Button) Button.interactable = true;
         }
     }
 

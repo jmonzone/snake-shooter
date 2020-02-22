@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class CyclopsTower : LaserTower
 {
-    protected override float Power => 2.0f;
-    protected override float Range => 2.0f;
+    protected override float Power => 2.5f;
     protected override float AttackSpeed => 1.0f;
 
     private float laserRange = 8.0f;

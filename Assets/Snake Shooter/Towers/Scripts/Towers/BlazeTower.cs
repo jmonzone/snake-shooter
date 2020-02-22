@@ -6,8 +6,8 @@ public class BlazeTower : ProjectileTower
     protected override float AttackSpeed => 0.6f;
     protected override float MissleSpeed => 100.0f;
 
-    private readonly float burnValue = 4.5f;
-    private readonly float burnDuration = 5.0f;
+    private readonly float burnValue = 7.5f;
+    private readonly float burnDuration = 3.0f;
 
     private readonly List<Enemy> hitEnemies = new List<Enemy>();
 

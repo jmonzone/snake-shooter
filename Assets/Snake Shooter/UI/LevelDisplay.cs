@@ -13,9 +13,15 @@ public class LevelDisplay : MonoBehaviour
         text = GetComponent<Text>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
         LevelManager.OnLevelChanged += OnLevelChanged;
+    }
+
+    private void OnDisable()
+    {
+        LevelManager.OnLevelChanged -= OnLevelChanged;
+
     }
 
     private void OnLevelChanged(int level)

@@ -11,6 +11,8 @@ public class EnemyManager : MonoBehaviour
 
     private const float INITIAL_SPAWN_DELAY = 1.5f;
 
+    private const float SPAWN_DELAY_GROWTH_FACTOR = 0.0005f;
+
     private int poolIndex;
     private List<Enemy> enemyPool;
 
@@ -58,11 +60,17 @@ public class EnemyManager : MonoBehaviour
         };
     }
 
-    private void Start()
+    private void OnEnable()
     {
         LevelManager.OnLevelBegun += OnLevelBegun;
 
         StartCoroutine(EnemySpawnUpdate(1));
+    }
+
+    private void OnDisable()
+    {
+        LevelManager.OnLevelBegun -= OnLevelBegun;
+
     }
 
     private void ClearAllEnemies()
@@ -80,11 +88,11 @@ public class EnemyManager : MonoBehaviour
 
         enemyPool.ForEach((enemy) =>
         {
-            enemy.Speed.Value = enemy.Speed.BaseValue + enemy.Speed.Growth * level;
-            enemy.Health.Max = enemy.Health.BaseMax + enemy.Health.Growth * level;
+            enemy.Speed.Value = enemy.Speed.BaseValue + enemy.Speed.Growth * (level - 1);
+            enemy.Health.Max = enemy.Health.BaseMax + enemy.Health.Growth * (level - 1);
         });
 
-        spawnDelay =  1.0f / (1 + (level * 0.0075f));
+        spawnDelay =  1.0f / (0.5f + ((level - 1) * SPAWN_DELAY_GROWTH_FACTOR));
 
         StartCoroutine(EnemySpawnUpdate(level));
     }

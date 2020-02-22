@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class BarrageTower : ProjectileTower
 {
-    protected override float Range => 1.5f;
     protected virtual int ShotCount => 3;
     protected virtual float MultiShotDelay => 0.05f;
 

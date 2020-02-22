@@ -4,8 +4,8 @@ using UnityEngine;
 public class SniperTower : ProjectileTower
 {
     protected override float Range => 10.0f;
-    protected override float Power => 5.0f;
-    protected override float AttackSpeed => 0.2f;
+    protected override float Power => 50.0f;
+    protected override float AttackSpeed => 0.35f;
     protected override float MissleSpeed => 1100.0f;
 
     protected override void OnTriggerStay2D(Collider2D collision)

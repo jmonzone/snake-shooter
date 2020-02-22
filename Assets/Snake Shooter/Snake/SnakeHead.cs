@@ -31,7 +31,7 @@ public class SnakeHead : SnakeNode
         {
             direction.x = 0;
         }
-        if (temp.y < Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y + 0.5f || temp.y > Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y - 0.25f)
+        if (temp.y < Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y + 1.25f || temp.y > Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y - 1.5f)
         {
             direction.y = 0;
         }

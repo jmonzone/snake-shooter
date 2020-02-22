@@ -12,12 +12,23 @@ public class SnakeManager : MonoBehaviour
     {
         snakeHead = GetComponentInChildren<SnakeHead>();
         lastSnakeNode = snakeHead;
+    }
 
+    private void OnEnable()
+    {
         snakeHead.OnEnemyCollision += OnHeadCollision;
         GameOverManager.OnRevive += OnRevive;
         UpgradeDisplay.OnUpgradeSelected += AddSnakeTower;
-
     }
+
+    private void OnDisable()
+    {
+        snakeHead.OnEnemyCollision -= OnHeadCollision;
+        GameOverManager.OnRevive -= OnRevive;
+        UpgradeDisplay.OnUpgradeSelected -= AddSnakeTower;
+    }
+
+
     private void OnHeadCollision()
     {
         if (lastSnakeNode == snakeHead)

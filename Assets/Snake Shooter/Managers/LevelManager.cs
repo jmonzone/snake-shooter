@@ -13,7 +13,7 @@ public class LevelManager : MonoBehaviour
     public static event Action<int> OnLevelBegun;
     public static event Action<int> OnLevelEnded;
 
-    private void Start()
+    private void OnEnable()
     {
         EnemyManager.OnEnemyDefeated += OnEnemyDefeated;
         EnemyManager.OnEnemyHasReachedBase += OnEnemyDefeated;
@@ -22,6 +22,20 @@ public class LevelManager : MonoBehaviour
         GameOverManager.OnRevive += OnRevive;
         GameOverManager.OnGameOver += OnGameOver;
 
+    }
+
+    private void OnDisable()
+    {
+        EnemyManager.OnEnemyDefeated -= OnEnemyDefeated;
+        EnemyManager.OnEnemyHasReachedBase -= OnEnemyDefeated;
+
+        UpgradeDisplay.OnUpgradeSelected -= OnUpgradeSelected;
+        GameOverManager.OnRevive -= OnRevive;
+        GameOverManager.OnGameOver -= OnGameOver;
+    }
+
+    private void Start()
+    {
         OnLevelBegun?.Invoke(Level);
     }
 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class Tower : MonoBehaviour
 {
-    protected virtual float Range => 2.0f;
+    protected virtual float Range => 3.0f;
 
     private TowerDismantler towerDismantler;
 

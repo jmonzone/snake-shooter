@@ -59,7 +59,6 @@ GameObject:
   - component: {fileID: 4681966483967903943}
   - component: {fileID: 2063429866909144219}
   - component: {fileID: 1479678400929087505}
-  - component: {fileID: 1479678400929087518}
   m_Layer: 8
   m_Name: Head Tower
   m_TagString: Snake Head
@@ -216,20 +215,6 @@ MonoBehaviour:
   next: {fileID: 0}
   previous: {fileID: 0}
   canMove: 0
---- !u!114 &1479678400929087518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1479678400929087504}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ee34b2df457e4643a2a1b13feac7532, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 3578475919631864451, guid: 060d4972bf67b42edbece81137bea457,
-    type: 3}
 --- !u!1 &7443389236289481468
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,6 +261,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -287,6 +273,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

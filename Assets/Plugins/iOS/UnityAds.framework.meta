@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6009c8a145887489cb3625a3279ea392
+guid: 73d340f0be2e14e6382e0e3b888e114e
 folderAsset: yes
 PluginImporter:
   externalObjects: {}
@@ -8,25 +8,15 @@ PluginImporter:
   executionOrder: {}
   defineConstraints: []
   isPreloaded: 0
-  isOverridable: 1
+  isOverridable: 0
   isExplicitlyReferenced: 0
+  validateReferences: 1
   platformData:
   - first:
-      '': Any
+      Any: 
     second:
       enabled: 0
-      settings:
-        Exclude Android: 1
-        Exclude Editor: 1
-        Exclude Linux: 1
-        Exclude Linux64: 1
-        Exclude LinuxUniversal: 1
-        Exclude OSXUniversal: 1
-        Exclude WebGL: 1
-        Exclude Win: 1
-        Exclude Win64: 1
-        Exclude iOS: 0
-        Exclude tvOS: 1
+      settings: {}
   - first:
       Editor: Editor
     second:
@@ -38,7 +28,7 @@ PluginImporter:
     second:
       enabled: 1
       settings:
-        FrameworkDependencies: AdSupport;CoreTelephony;StoreKit;
+        AddToEmbeddedBinaries: false
   userData: 
   assetBundleName: 
   assetBundleVariant: 

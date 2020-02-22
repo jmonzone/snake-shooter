@@ -37,7 +37,7 @@ public class Health : MonoBehaviour
     public float BaseMax => baseMax;
     public float Growth => growth;
 
-    private void Start()
+    private void Awake()
     {
         value = BaseMax;
         Max = BaseMax; 

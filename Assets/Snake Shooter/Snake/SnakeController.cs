@@ -20,7 +20,7 @@ public class SnakeController : MonoBehaviour
         get => direction;
     }
 
-    private void Start()
+    private void OnEnable()
     {
         LevelManager.OnLevelBegun += OnLevelBegun;
         LevelManager.OnLevelEnded += OnLevelEnded;

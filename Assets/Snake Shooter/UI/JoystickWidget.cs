@@ -8,21 +8,22 @@ public class JoystickWidget : MonoBehaviour
     [SerializeField] private Transform stick;
     [SerializeField] private Transform widgetBase;
 
-    private void Start()
+    private Vector3 startPos;
+
+    private void Awake()
     {
-        gameObject.SetActive(false);
+        startPos = transform.position;
     }
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            gameObject.SetActive(true);
-
             var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePosition.z = 0;
 
-            widgetBase.position = mousePosition;
+            transform.position = mousePosition;
+            stick.position = mousePosition;
         }
         else if (Input.GetMouseButton(0))
         {
@@ -30,14 +31,14 @@ public class JoystickWidget : MonoBehaviour
             mousePosition.z = 0;
 
             var direction = mousePosition - widgetBase.position;
-            if (direction.magnitude > .75f) direction.Normalize();
+            if (direction.magnitude > .4f) direction = direction.normalized * 0.4f;
 
             stick.transform.position = widgetBase.position + direction;
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            gameObject.SetActive(false);
-
+            transform.position = startPos;
+            stick.position = startPos;
         }
     }
 

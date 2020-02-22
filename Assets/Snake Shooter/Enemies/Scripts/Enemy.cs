@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour
     {
         float rand = UnityEngine.Random.Range(1, 10);
         float spawnx = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * (rand / 10.0f), 0)).x;
-        float spawnY = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
+        float spawnY = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y - 1.5f;
         transform.position = new Vector2(spawnx, spawnY);
     }
 

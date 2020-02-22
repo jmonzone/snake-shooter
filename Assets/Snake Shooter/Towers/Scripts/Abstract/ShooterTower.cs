@@ -5,7 +5,7 @@ public abstract class ShooterTower : Tower
 {
     protected virtual float AttackSpeed => 1.0f;
     protected float ShotDelay => 1 / AttackSpeed;
-    protected virtual float Power => 2.0f;
+    protected virtual float Power => 1.5f;
 
     protected const int INITIAL_POOL_COUNT = 10;
 
