@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    [SerializeField] private int startingLevel;
+
     private int progress = 0;
     private int goal = 1;
     private int level = 1;
@@ -36,6 +38,7 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
+        level = startingLevel;
         OnLevelBegun?.Invoke(Level);
     }
 

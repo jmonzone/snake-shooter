@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 5303870768326952452}
   - component: {fileID: 5303870768326952472}
   - component: {fileID: 5303870768326952455}
-  - component: {fileID: 580261929216495525}
-  - component: {fileID: 5192693745557872743}
-  - component: {fileID: 2954129954128865539}
+  - component: {fileID: 5303870768326952473}
+  - component: {fileID: 2040032444993128177}
+  - component: {fileID: 5316344457558122710}
+  - component: {fileID: 6652413590937148320}
   - component: {fileID: 5303870768326952454}
-  - component: {fileID: 512427065095057879}
-  - component: {fileID: -2934688557354026505}
+  - component: {fileID: -7008540632207220450}
   m_Layer: 10
   m_Name: Curve Enemy
   m_TagString: Enemy
@@ -33,7 +33,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5303870768326952451}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2.14, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0.49019608, g: 0.39215687, b: 1, a: 1}
+  m_Color: {r: 0.5882353, g: 0.39215687, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -126,7 +126,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.1
---- !u!114 &580261929216495525
+--- !u!114 &5303870768326952473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5303870768326952451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3be3dde4637f24ad1949dae162caf0e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2040032444993128177
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -138,9 +150,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03f29ed430d9941e49a4891bbe353e5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseMax: 5
-  growth: 10
---- !u!114 &5192693745557872743
+  baseMax: 20
+  growth: 50
+--- !u!114 &5316344457558122710
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -152,9 +164,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee5bb4ca3bfb94b42b1abc400c0f1da4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseValue: 1
-  growth: 0.05
---- !u!114 &2954129954128865539
+  baseValue: 0.5
+  growth: 0.0025
+--- !u!114 &6652413590937148320
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -179,20 +191,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lowHealthColor: {r: 0.36078432, g: 0.23529412, b: 0.23529412, a: 1}
-  highHealthColor: {r: 0.49019608, g: 0.39215687, b: 1, a: 1}
---- !u!114 &512427065095057879
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5303870768326952451}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3be3dde4637f24ad1949dae162caf0e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-2934688557354026505
+  highHealthColor: {r: 0.5882353, g: 0.39215687, b: 1, a: 1}
+--- !u!114 &-7008540632207220450
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

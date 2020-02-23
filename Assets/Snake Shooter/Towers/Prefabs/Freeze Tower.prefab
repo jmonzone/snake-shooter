@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4915225069673971886}
   m_Layer: 8
   m_Name: Model
-  m_TagString: Untagged
+  m_TagString: Snake Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46,6 +46,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -57,6 +58,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -275,6 +277,7 @@ LineRenderer:
   m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -286,6 +289,7 @@ LineRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -383,7 +387,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 176926f2be5a845629cb6992cc38f8f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineRenderer: {fileID: 2639474872656392539}
   particlePrefab: {fileID: 3049165925203010890, guid: 7bdbae64dd8594fdf8e211e2e112440c,
     type: 3}
 --- !u!114 &4035449257458500275
@@ -410,7 +413,7 @@ GameObject:
   - component: {fileID: 4216555167297133539}
   m_Layer: 8
   m_Name: Trigger
-  m_TagString: Untagged
+  m_TagString: Snake Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

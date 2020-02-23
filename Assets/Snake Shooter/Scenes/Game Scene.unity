@@ -1743,7 +1743,9 @@ MonoBehaviour:
   - {fileID: 5303870768326952473, guid: bcdf949995ef7498e88dc07ec512185c, type: 3}
   - {fileID: 5303870768326952473, guid: 3a1be50cbd9a748dc8426544c8584f2e, type: 3}
   - {fileID: 5303870768326952473, guid: 0e3ff3d4dc0c64fcdb685899877026a5, type: 3}
-  - {fileID: 512427065095057879, guid: 5fd868342e72645b88ad1fc38c295265, type: 3}
+  - {fileID: 5303870768326952473, guid: 772980a740c6c48bf93d5289596a477f, type: 3}
+  bossPrefab: {fileID: 6200325807386416472, guid: 5fd868342e72645b88ad1fc38c295265,
+    type: 3}
   spawnDelay: 2
 --- !u!4 &544838759
 Transform:
@@ -4427,6 +4429,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2117785348}
   - component: {fileID: 2117785349}
+  - component: {fileID: 2117785350}
   m_Layer: 0
   m_Name: Level Manager
   m_TagString: Untagged
@@ -4458,5 +4461,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2fc145ba3219e458eac8a4144ccf6081, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingLevel: 1
+--- !u!114 &2117785350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2117785347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45c27f35301b84f3bad9ae511f38ad62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

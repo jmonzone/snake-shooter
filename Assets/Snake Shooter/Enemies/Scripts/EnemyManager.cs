@@ -7,6 +7,7 @@ public class EnemyManager : MonoBehaviour
 {
     [Header("Options")]
     [SerializeField] private List<Enemy> enemyPrefabs;
+    [SerializeField] private Enemy bossPrefab;
     [SerializeField] private float spawnDelay;
 
     private const float INITIAL_SPAWN_DELAY = 1.5f;
@@ -15,22 +16,29 @@ public class EnemyManager : MonoBehaviour
 
     private int poolIndex;
     private List<Enemy> enemyPool;
+    private Enemy boss;
 
     public static event Action<Enemy> OnEnemyDefeated;
     public static event Action<Enemy> OnEnemyHasReachedBase;
+    public static event Action OnAllEnemiesDefeated;
 
 
     private void Awake()
     {
         enemyPool = new List<Enemy>();
 
-        CreateEnemy(enemyPrefabs[0]);
+        var enemy = CreateEnemy(enemyPrefabs[0]);
+        enemyPool.Add(enemy);
 
         for (int i = 0; i < 30; i++)
         {
             var prefab = RandomlySelectPrefab();
-            CreateEnemy(prefab);
+
+            enemy = CreateEnemy(prefab);
+            enemyPool.Add(enemy);
         }
+
+        boss = CreateEnemy(bossPrefab);
     }
 
     private Enemy RandomlySelectPrefab()
@@ -44,10 +52,9 @@ public class EnemyManager : MonoBehaviour
        
     }
 
-    private void CreateEnemy(Enemy prefab )
+    private Enemy CreateEnemy(Enemy prefab )
     {
         var enemy = Instantiate(prefab, transform.position, Quaternion.identity, transform);
-        enemyPool.Add(enemy);
         enemy.gameObject.SetActive(false);
 
         enemy.Health.OnHealthZero += () =>
@@ -59,6 +66,8 @@ public class EnemyManager : MonoBehaviour
         {
             OnEnemyHasReachedBase?.Invoke(enemy);
         };
+
+        return enemy;
     }
 
     private void OnEnable()
@@ -86,6 +95,13 @@ public class EnemyManager : MonoBehaviour
     {
         StopAllCoroutines();
         ClearAllEnemies();
+
+        //if (level % 2 == 0)
+        //{
+        //    SpawnBoss();
+        //    return;
+        //}
+
 
         enemyPool.ForEach((enemy) =>
         {
@@ -121,6 +137,19 @@ public class EnemyManager : MonoBehaviour
         while (enemy.gameObject.activeSelf);
         
 
+
+        float rand = UnityEngine.Random.Range(1, 10);
+        float spawnx = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * (rand / 10.0f), 0)).x;
+        float spawnY = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y - 1.5f;
+        enemy.transform.position = new Vector2(spawnx, spawnY);
+
         enemy.gameObject.SetActive(true);
+    }
+
+    private void SpawnBoss()
+    {
+        float spawnY = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y - 1.5f;
+        boss.transform.position = new Vector2(0, spawnY);
+        boss.gameObject.SetActive(true);
     }
 }

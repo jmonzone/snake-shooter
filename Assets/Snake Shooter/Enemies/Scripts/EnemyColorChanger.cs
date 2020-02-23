@@ -8,22 +8,17 @@ public class EnemyColorChanger : MonoBehaviour
    [SerializeField] private Color lowHealthColor;
    [SerializeField] private Color highHealthColor;
 
-    private Enemy enemy;
+    private Health health;
     private SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
-        enemy = GetComponent<Enemy>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        health = GetComponent<Health>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
-    private void Start()
+    private void Update()
     {
-        enemy.Health.OnHealthChanged += OnHealthChanged;
-    }
-
-    private void OnHealthChanged(float health)
-    {
-        spriteRenderer.color = Color.Lerp(lowHealthColor, highHealthColor, health / enemy.Health.Max);
+        spriteRenderer.color = Color.Lerp(lowHealthColor, highHealthColor, health.Value / health.Max);
     }
 }

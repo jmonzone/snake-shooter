@@ -4,6 +4,7 @@ public class Tags
 {
     public const string SNAKE_HEAD = "Snake Head";
     public const string ENEMY = "Enemy";
+    public const string SNAKE_BODY = "Snake Body";
 }
 
 public class CurrencyDespawner : MonoBehaviour

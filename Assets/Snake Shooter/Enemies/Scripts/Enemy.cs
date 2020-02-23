@@ -21,14 +21,6 @@ public class Enemy : MonoBehaviour
         status = GetComponent<Status>();
     }
 
-    private void OnEnable()
-    {
-        float rand = UnityEngine.Random.Range(1, 10);
-        float spawnx = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * (rand / 10.0f), 0)).x;
-        float spawnY = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y - 1.5f;
-        transform.position = new Vector2(spawnx, spawnY);
-    }
-
     protected virtual void Update()
     {
         transform.position += Vector3.down * Time.deltaTime * speed.Value;

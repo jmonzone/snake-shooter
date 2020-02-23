@@ -29,12 +29,16 @@ public class SnakeManager : MonoBehaviour
     }
 
 
+    public void HitHead()
+    {
+        snakeHead.gameObject.SetActive(false);
+        OnHeadDestroyed?.Invoke();
+    }
     private void OnHeadCollision()
     {
         if (lastSnakeNode == snakeHead)
         {
-            snakeHead.gameObject.SetActive(false);
-            OnHeadDestroyed?.Invoke();
+            HitHead();
         }
         else
         {

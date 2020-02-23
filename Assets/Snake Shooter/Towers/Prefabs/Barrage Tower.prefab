@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1944670798312642698}
   m_Layer: 8
   m_Name: Trigger
-  m_TagString: Untagged
+  m_TagString: Snake Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -57,10 +57,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7971054134243967758}
   - component: {fileID: 2207384408976976219}
-  - component: {fileID: 1827768373087742463}
+  - component: {fileID: 6946844710443706832}
   m_Layer: 8
   m_Name: Model
-  m_TagString: Untagged
+  m_TagString: Snake Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -93,6 +93,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -104,6 +105,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -127,7 +129,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &1827768373087742463
+--- !u!61 &6946844710443706832
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
