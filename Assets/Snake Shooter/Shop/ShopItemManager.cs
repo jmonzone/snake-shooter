@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Advertisements;
+using System.Linq;
 
 public class ShopItemManager : MonoBehaviour
 {
@@ -15,9 +16,6 @@ public class ShopItemManager : MonoBehaviour
 
     [SerializeField] private Button nextButton;
     [SerializeField] private Button previousButton;
-
-    [Header("Options")]
-    [SerializeField] private List<UnlockableTower> unlockableTowers;
 
     private int unlockableTowerIndex;
     private UnlockableTower currentUnlockableTower;
@@ -39,17 +37,15 @@ public class ShopItemManager : MonoBehaviour
         nextButton.onClick.AddListener(() => SwitchUnlockableTower(true));
         previousButton.onClick.AddListener(() => SwitchUnlockableTower(false));
 
-        CurrentUnlockableTower = unlockableTowers[0];
+        CurrentUnlockableTower = GameManager.Instance.RemainingUnlockableTowers[0];
     }
 
     private void SwitchUnlockableTower(bool next = true)
     {
         var value = next ? unlockableTowerIndex + 1 : unlockableTowerIndex - 1;
 
-        unlockableTowerIndex = Mathf.Clamp(value, 0, unlockableTowers.Count);
-
-
-        CurrentUnlockableTower = unlockableTowers[unlockableTowerIndex];
+        unlockableTowerIndex = Mathf.Clamp(value, 0, GameManager.Instance.RemainingUnlockableTowers.Count);
+        CurrentUnlockableTower = GameManager.Instance.RemainingUnlockableTowers[unlockableTowerIndex];
     }
 
     private void AddTower(UnlockableTower unlockableTower)
@@ -57,9 +53,8 @@ public class ShopItemManager : MonoBehaviour
         if (Currency.Count >= unlockableTower.Price)
         {
             Currency.Count -= unlockableTower.Price;
-            PlayerPrefs.SetInt(unlockableTower.Key, 1);
+            GameManager.Instance.AddAvailableTower(unlockableTower);
         }
-
     }
 
     public UnlockableTower CurrentUnlockableTower
@@ -75,7 +70,7 @@ public class ShopItemManager : MonoBehaviour
             itemPrice.text = currentUnlockableTower.Price.ToString();
 
             previousButton.gameObject.SetActive(unlockableTowerIndex != 0);
-            nextButton.gameObject.SetActive(unlockableTowerIndex != unlockableTowers.Count - 1);
+            nextButton.gameObject.SetActive(unlockableTowerIndex != GameManager.Instance.RemainingUnlockableTowers.Count - 1);
 
             OnUnlockableTowerChanged?.Invoke(currentUnlockableTower);
         }

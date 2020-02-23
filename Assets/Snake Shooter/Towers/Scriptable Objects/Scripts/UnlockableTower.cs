@@ -9,5 +9,4 @@ public class UnlockableTower : ScriptableTower
     public string Key => key;
     public int Price => price;
 
-
 }
