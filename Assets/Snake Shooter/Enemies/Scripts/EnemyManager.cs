@@ -37,9 +37,10 @@ public class EnemyManager : MonoBehaviour
     {
         var rand = UnityEngine.Random.Range(0.0f, 1.0f);
 
-        if (rand <= .7) return enemyPrefabs[0];
-        if (rand <= .9) return enemyPrefabs[1];
-        else return enemyPrefabs[2];
+        if (rand <= .4) return enemyPrefabs[0];
+        if (rand <= .6) return enemyPrefabs[1];
+        if (rand <= .8) return enemyPrefabs[2];
+        else return enemyPrefabs[3];
        
     }
 
