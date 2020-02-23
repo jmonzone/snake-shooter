@@ -29,7 +29,7 @@ public class Enemy : MonoBehaviour
         transform.position = new Vector2(spawnx, spawnY);
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         transform.position += Vector3.down * Time.deltaTime * speed.Value;
     }
