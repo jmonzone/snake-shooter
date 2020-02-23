@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d88316cc8d04f4f908dca8615717e37e, type: 3}
   m_Name: Freeze Tower
   m_EditorClassIdentifier: 
-  towerName: 
-  sprite: {fileID: 0}
-  description: 
-  prefab: {fileID: 0}
-  key: 
-  price: 0
+  towerName: Freeze Tower
+  sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  description: Chilly! Slows down enemies
+  prefab: {fileID: 2501172439929130855, guid: 7e6be4cbf3ceb4ba080cf2eab263cf6b, type: 3}
+  key: FREEZE_TOWER
+  price: 300

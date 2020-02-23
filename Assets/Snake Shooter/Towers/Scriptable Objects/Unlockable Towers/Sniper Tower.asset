@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d88316cc8d04f4f908dca8615717e37e, type: 3}
   m_Name: Sniper Tower
   m_EditorClassIdentifier: 
-  towerName: 
-  sprite: {fileID: 0}
-  description: 
-  prefab: {fileID: 0}
-  key: 
-  price: 0
+  towerName: Sniper Tower
+  sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  description: 'Powerful but slow '
+  prefab: {fileID: 7405386629432607663, guid: f0278a78b536842fbb0b24129da17430, type: 3}
+  key: SNIPER_TOWER
+  price: 100

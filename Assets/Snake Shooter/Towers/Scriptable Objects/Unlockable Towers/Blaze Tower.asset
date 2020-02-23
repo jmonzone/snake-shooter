@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d88316cc8d04f4f908dca8615717e37e, type: 3}
   m_Name: Blaze Tower
   m_EditorClassIdentifier: 
-  towerName: 
-  sprite: {fileID: 0}
-  description: 
-  prefab: {fileID: 0}
-  key: 
-  price: 0
+  towerName: Blaze Tower
+  sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  description: Shoots a hot burning cannonball
+  prefab: {fileID: 7540860805510577570, guid: 6e97350b42c82424aaeff0ef44f2fb36, type: 3}
+  key: BLAZE_TOWER
+  price: 200

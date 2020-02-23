@@ -28,7 +28,6 @@ public class GameManager: MonoBehaviour
     private void Awake(){
         DontDestroyOnLoad(this);
         Instance = this;
-        CurrentLevel = PlayerPrefs.GetInt(currentLevelPlayerPrefKey, 1);
 
         foreach (UnlockableTower unlockableTower in allUnlockableTowers)
         {
