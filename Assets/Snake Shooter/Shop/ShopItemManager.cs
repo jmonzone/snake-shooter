@@ -18,26 +18,34 @@ public class ShopItemManager : MonoBehaviour
     [SerializeField] private Button previousButton;
 
     private int unlockableTowerIndex;
-    private UnlockableTower currentUnlockableTower;
+    private ScriptableTower currentUnlockableTower;
 
+    public Text ItemName => itemName;
     public Image ItemImage => itemImage;
     public Text ItemText => itemText;
+    public Text ItemPrice => itemPrice;
     public RewardedAdsButton PurchaseButton => purchaseButton;
+    public Button NextButton => nextButton;
+    public Button PreviousButton => previousButton;
 
-    public static event Action<UnlockableTower> OnUnlockableTowerChanged;
-    public static event Action OnPurchase;
+    public static event Action<ScriptableTower> OnUnlockableTowerChanged;
+    public static event Action OnUnlockablePurchased;
+    public static event Action OnAllUnlocked;
 
     private void Awake()
     {
-        purchaseButton.OnAdFinished += () =>
-        {
-            AddTower(CurrentUnlockableTower);
-        };
+        purchaseButton.Button.onClick.AddListener(() => AddTower(CurrentUnlockableTower));
 
         nextButton.onClick.AddListener(() => SwitchUnlockableTower(true));
         previousButton.onClick.AddListener(() => SwitchUnlockableTower(false));
+    }
 
-        CurrentUnlockableTower = GameManager.Instance.RemainingUnlockableTowers[0];
+    private void Start()
+    {
+        if (GameManager.Instance.RemainingUnlockableTowers.Count == 0)
+            OnAllUnlocked?.Invoke();
+        else 
+            CurrentUnlockableTower = GameManager.Instance.RemainingUnlockableTowers[0];
     }
 
     private void SwitchUnlockableTower(bool next = true)
@@ -45,19 +53,28 @@ public class ShopItemManager : MonoBehaviour
         var value = next ? unlockableTowerIndex + 1 : unlockableTowerIndex - 1;
 
         unlockableTowerIndex = Mathf.Clamp(value, 0, GameManager.Instance.RemainingUnlockableTowers.Count);
-        CurrentUnlockableTower = GameManager.Instance.RemainingUnlockableTowers[unlockableTowerIndex];
-    }
 
-    private void AddTower(UnlockableTower unlockableTower)
-    {
-        if (Currency.Count >= unlockableTower.Price)
+        if (GameManager.Instance.RemainingUnlockableTowers.Count == 0)
         {
-            Currency.Count -= unlockableTower.Price;
-            GameManager.Instance.AddAvailableTower(unlockableTower);
+            OnAllUnlocked?.Invoke();
+        }
+        else
+        {
+            CurrentUnlockableTower = GameManager.Instance.RemainingUnlockableTowers[unlockableTowerIndex];
         }
     }
 
-    public UnlockableTower CurrentUnlockableTower
+    private void AddTower(ScriptableTower unlockableTower)
+    {
+        if (GameManager.Instance.CurrencyCount >= unlockableTower.UnlockPrice)
+        {
+            GameManager.Instance.CurrencyCount -= unlockableTower.UnlockPrice;
+            GameManager.Instance.AddAvailableTower(unlockableTower);
+            SwitchUnlockableTower(false);
+        }
+    }
+
+    public ScriptableTower CurrentUnlockableTower
     {
         get => currentUnlockableTower;
         private set
@@ -67,7 +84,7 @@ public class ShopItemManager : MonoBehaviour
             itemName.text = currentUnlockableTower.TowerName;
             itemImage.sprite = currentUnlockableTower.Sprite;
             itemText.text = currentUnlockableTower.Description;
-            itemPrice.text = currentUnlockableTower.Price.ToString();
+            itemPrice.text = currentUnlockableTower.UnlockPrice.ToString();
 
             previousButton.gameObject.SetActive(unlockableTowerIndex != 0);
             nextButton.gameObject.SetActive(unlockableTowerIndex != GameManager.Instance.RemainingUnlockableTowers.Count - 1);

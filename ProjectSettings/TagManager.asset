@@ -9,6 +9,9 @@ TagManager:
   - Base
   - Snake Body
   - Currency
+  - Enemy Projectile
+  - Target Trigger
+  - Tower Projectile
   layers:
   - Default
   - TransparentFX
@@ -21,12 +24,12 @@ TagManager:
   - Tower
   - Projectile
   - Enemy
-  - Base
-  - Border
+  - 
+  - 
   - Currency
   - Head Tower
-  - 
-  - 
+  - Targeting Trigger
+  - Enemy Projectile
   - 
   - 
   - 
@@ -45,4 +48,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Snake
+    uniqueID: 1899778517
     locked: 0

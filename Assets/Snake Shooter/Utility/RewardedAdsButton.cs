@@ -21,15 +21,30 @@ public class RewardedAdsButton : MonoBehaviour, IUnityAdsListener
     {
         Button = GetComponent<Button>();
 
-        // Set interactivity to be dependent on the Placement’s status:
-        Button.interactable = Advertisement.IsReady(myPlacementId);
+        //Map the ShowRewardedVideo function to the button’s click listener:
+        if (Button)
+        {
 
-        // Map the ShowRewardedVideo function to the button’s click listener:
-        if (Button) Button.onClick.AddListener(ShowRewardedVideo);
+            Button.onClick.AddListener(ShowRewardedVideo);
+
+            //if (Advertisement.IsReady(myPlacementId))
+            //{
+            //    Button.onClick.AddListener(ShowRewardedVideo);
+            //}
+            //else
+            //{
+            //    Button.onClick.AddListener(() => Debug.Log("Ad is not ready."));
+            //}
+        }
 
         // Initialize the Ads listener and service:
         Advertisement.AddListener(this);
-        Advertisement.Initialize(gameId, true);
+        Advertisement.Initialize(gameId, GameManager.Instance.TestMode);
+    }
+
+    private void OnDestroy()
+    {
+        //Advertisement.RemoveListener(this);
     }
 
     // Implement a function for showing a rewarded video ad:
@@ -44,7 +59,11 @@ public class RewardedAdsButton : MonoBehaviour, IUnityAdsListener
         // If the ready Placement is rewarded, activate the button: 
         if (placementId == myPlacementId)
         {
-            if(Button) Button.interactable = true;
+            //if (Button)
+            //{
+            //    Button.onClick.RemoveAllListeners();
+            //    Button.onClick.AddListener(ShowRewardedVideo);
+            //}
         }
     }
 
@@ -75,4 +94,9 @@ public class RewardedAdsButton : MonoBehaviour, IUnityAdsListener
     {
         // Optional actions to take when the end-users triggers an ad.
     }
+}
+
+public static class Ads
+{
+    public const string REWARDED_AD = "rewardedVideo";
 }

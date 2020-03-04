@@ -1,35 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerPrefsKeys
-{
-    public const string CURRENCY_KEY = "CURRENCY";
-
-    public const string CYCLOPS_TOWER = "CYCLOPS_TOWER";
-}
-
 public class CurrencyDisplay : MonoBehaviour
 {
     private Text text;
 
-    private void Awake()
-    {
-        text = GetComponent<Text>();
-        UpdateDisplay(PlayerPrefs.GetInt(PlayerPrefsKeys.CURRENCY_KEY));
-    }
-
     private void OnEnable()
     {
-         Currency.OnCurrencyCountChanged += UpdateDisplay;
+        text = GetComponent<Text>();
     }
 
-    private void OnDisable()
+    private void Update()
     {
-        Currency.OnCurrencyCountChanged -= UpdateDisplay;
-    }
-
-    private void UpdateDisplay(int count)
-    {
-        text.text = count.ToString() ;
+        text.text = CurrencyManager.Instance.CurrencyCount.ToString() ;
     }
 }

@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85834b7009b6b4b6a87074cf6cbb2fe7, type: 3}
+  m_Name: Cyclops Boss
+  m_EditorClassIdentifier: 
+  id: Cyclops Boss
+  prefab: {fileID: 5303870768326952451, guid: 5fd868342e72645b88ad1fc38c295265, type: 3}

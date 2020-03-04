@@ -7,19 +7,40 @@ public class ShopItemDisabler : MonoBehaviour
     private void Awake()
     {
         shopItemManager = GetComponent<ShopItemManager>();
-        ShopItemManager.OnUnlockableTowerChanged += Disable;
     }
 
-    private void Start()
+    private void OnEnable()
     {
-            Disable(shopItemManager.CurrentUnlockableTower);
+        ShopItemManager.OnUnlockableTowerChanged += Disable;
+        ShopItemManager.OnAllUnlocked += DisplayEmptyShop;
     }
 
-    private void Disable(UnlockableTower unlockableTower)
+    private void OnDisable()
+    {
+        ShopItemManager.OnUnlockableTowerChanged -= Disable;
+        ShopItemManager.OnAllUnlocked -= DisplayEmptyShop;
+    }
+
+    private void DisplayEmptyShop()
+    {
+        shopItemManager.ItemName.text = "CONGRATS!";
+        shopItemManager.ItemText.text = "YOU HAVE UNLOCKED EVERY TOWER!";
+
+
+        shopItemManager.ItemImage.gameObject.SetActive(false);
+        shopItemManager.ItemPrice.gameObject.SetActive(false);
+        shopItemManager.PurchaseButton.gameObject.SetActive(false);
+
+        shopItemManager.NextButton.gameObject.SetActive(false);
+        shopItemManager.PreviousButton.gameObject.SetActive(false);
+
+    }
+
+    private void Disable(ScriptableTower unlockableTower)
     {
         var playerOwnsUnlockable = PlayerPrefs.HasKey(unlockableTower.Key);
 
-        shopItemManager.PurchaseButton.Button.interactable = !playerOwnsUnlockable;
+        shopItemManager.PurchaseButton.Button.interactable = GameManager.Instance.CurrencyCount >= unlockableTower.UnlockPrice;
 
         var image = shopItemManager.ItemImage;
         var alpha = playerOwnsUnlockable ? 0.5f : 1;

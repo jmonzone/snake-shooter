@@ -6,65 +6,53 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     [Header("Options")]
-    [SerializeField] private List<Enemy> enemyPrefabs;
-    [SerializeField] private Enemy bossPrefab;
     [SerializeField] private float spawnDelay;
 
-    private const float INITIAL_SPAWN_DELAY = 1.5f;
+    private ScriptableLevel currentLevel;
 
+    private Dictionary<string, List<GameObject>> enemyPools;
+
+    private const float INITIAL_SPAWN_DELAY = 1.5f;
     private const float SPAWN_DELAY_GROWTH_FACTOR = 0.0005f;
 
-    private int poolIndex;
-    private List<Enemy> enemyPool;
-    private Enemy boss;
+    public static event Action<GameObject> OnEnemyDefeated;
 
-    public static event Action<Enemy> OnEnemyDefeated;
-    public static event Action<Enemy> OnEnemyHasReachedBase;
-    public static event Action OnAllEnemiesDefeated;
-
-
-    private void Awake()
+    private void CreateEnemies()
     {
-        enemyPool = new List<Enemy>();
+        enemyPools = new Dictionary<string, List<GameObject>>();
 
-        var enemy = CreateEnemy(enemyPrefabs[0]);
-        enemyPool.Add(enemy);
-
-        for (int i = 0; i < 30; i++)
+        currentLevel.Rounds.ForEach((round) =>
         {
-            var prefab = RandomlySelectPrefab();
+            round.Waves.ForEach((wave) =>
+             {
+                 var enemy = wave.Enemy;
+                 var enemyKey = enemy.ID;
 
-            enemy = CreateEnemy(prefab);
-            enemyPool.Add(enemy);
-        }
+                 if (!enemyPools.ContainsKey(enemyKey))
+                 {
+                     enemyPools.Add(enemyKey, new List<GameObject>());
+                 };
 
-        boss = CreateEnemy(bossPrefab);
+                 var pool = enemyPools[enemyKey];
+
+                 while(wave.Count > pool.Count)
+                 {
+                     var enemyObject = CreateEnemy(enemy.Prefab);
+                     pool.Add(enemyObject);
+                 }
+             });
+        });
+        
     }
 
-    private Enemy RandomlySelectPrefab()
-    {
-        var rand = UnityEngine.Random.Range(0.0f, 1.0f);
-
-        if (rand <= .4) return enemyPrefabs[0];
-        if (rand <= .6) return enemyPrefabs[1];
-        if (rand <= .8) return enemyPrefabs[2];
-        else return enemyPrefabs[3];
-       
-    }
-
-    private Enemy CreateEnemy(Enemy prefab )
+    private GameObject CreateEnemy(GameObject prefab)
     {
         var enemy = Instantiate(prefab, transform.position, Quaternion.identity, transform);
         enemy.gameObject.SetActive(false);
 
-        enemy.Health.OnHealthZero += () =>
+        enemy.GetComponent<EnemyHealth>().OnHealthZero += () =>
         {
             OnEnemyDefeated?.Invoke(enemy);
-        };
-
-        enemy.OnEnemyHasReachedBase += () =>
-        {
-            OnEnemyHasReachedBase?.Invoke(enemy);
         };
 
         return enemy;
@@ -72,84 +60,78 @@ public class EnemyManager : MonoBehaviour
 
     private void OnEnable()
     {
-        LevelManager.OnLevelBegun += OnLevelBegun;
+        currentLevel = GameManager.Instance.CurrentLevel;
+        CreateEnemies();
 
-        StartCoroutine(EnemySpawnUpdate(1));
+        LevelManager.OnRoundBegun += OnRoundBegun;
+        GameOverManager.OnGameOver += OnGameOver;
     }
 
     private void OnDisable()
     {
-        LevelManager.OnLevelBegun -= OnLevelBegun;
+        LevelManager.OnRoundBegun -= OnRoundBegun;
+        GameOverManager.OnGameOver -= OnGameOver;
+    }
 
+    private void OnGameOver(GameOverEventArgs args)
+    {
+        StopAllCoroutines();
+        ClearAllEnemies();
     }
 
     private void ClearAllEnemies()
     {
-        enemyPool.ForEach((enemy) =>
+        foreach (List<GameObject> pool in enemyPools.Values)
         {
-            enemy.gameObject.SetActive(false);
-        });
-    }
-
-    private void OnLevelBegun(int level)
-    {
-        StopAllCoroutines();
-        ClearAllEnemies();
-
-        //if (level % 2 == 0)
-        //{
-        //    SpawnBoss();
-        //    return;
-        //}
-
-
-        enemyPool.ForEach((enemy) =>
-        {
-            enemy.Speed.Value = enemy.Speed.BaseValue + enemy.Speed.Growth * (level - 1);
-            enemy.Health.Max = enemy.Health.BaseMax + enemy.Health.Growth * (level - 1);
-        });
-
-        spawnDelay =  1.0f / (0.5f + ((level - 1) * SPAWN_DELAY_GROWTH_FACTOR));
-
-        StartCoroutine(EnemySpawnUpdate(level));
-    }
-
-    private IEnumerator EnemySpawnUpdate(int enemyCount)
-    {
-        yield return new WaitForSeconds(INITIAL_SPAWN_DELAY);
-
-        for (int i = 0; i < enemyCount; i++)
-        {
-            SpawnEnemy();
-            yield return new WaitForSeconds(spawnDelay);
+            pool.ForEach((enemy) =>
+            {
+                enemy.gameObject.SetActive(false);
+            });
         }
     }
 
-    private void SpawnEnemy()
+    private void OnRoundBegun(OnRoundBegunEventArgs args)
     {
-        Enemy enemy;
+        spawnDelay = 1.0f / (0.5f + ((args.roundIndex) * SPAWN_DELAY_GROWTH_FACTOR));
+        StartCoroutine(EnemySpawnUpdate(args.roundIndex));
+    }
+
+    private IEnumerator EnemySpawnUpdate(int roundIndex)
+    {
+        Debug.Log("Spawning enemies.");
+        yield return new WaitForSeconds(INITIAL_SPAWN_DELAY);
+
+        var currentRound = currentLevel.Rounds[roundIndex];
+        foreach(EnemyWave wave in currentRound.Waves)
+        {
+            for (int i = 0; i < wave.Count; i++)
+            {
+                var pool = enemyPools[wave.Enemy.ID];
+                SpawnEnemy(pool);
+                yield return new WaitForSeconds(spawnDelay);
+            }
+        }
+    }
+
+    private void SpawnEnemy(List<GameObject> enemyPool)
+    {
+        GameObject toSpawn;
+        int i = 0;
 
         do
         {
-            enemy = enemyPool[poolIndex];
-            poolIndex = (poolIndex + 1) % enemyPool.Count;
-        }
-        while (enemy.gameObject.activeSelf);
-        
+            toSpawn = enemyPool[i];
+            i = (i + 1) % enemyPool.Count;
 
+        } while (toSpawn.activeSelf);
 
         float rand = UnityEngine.Random.Range(1, 10);
         float spawnx = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * (rand / 10.0f), 0)).x;
-        float spawnY = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y - 1.5f;
-        enemy.transform.position = new Vector2(spawnx, spawnY);
+        float spawnY = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
+        toSpawn.transform.position = new Vector2(spawnx, spawnY);
+        toSpawn.GetComponent<TargetRotation>().RotateTransform.up = Vector3.down;
 
-        enemy.gameObject.SetActive(true);
+        toSpawn.gameObject.SetActive(true);
     }
 
-    private void SpawnBoss()
-    {
-        float spawnY = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y - 1.5f;
-        boss.transform.position = new Vector2(0, spawnY);
-        boss.gameObject.SetActive(true);
-    }
 }

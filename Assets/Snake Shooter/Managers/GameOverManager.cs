@@ -1,35 +1,63 @@
 ﻿using System;
 using UnityEngine;
 
+public struct GameOverEventArgs
+{
+    public int availableRevives;
+
+    public bool CanRevive => availableRevives > 0;
+
+    public GameOverEventArgs(int revives)
+    {
+        availableRevives = revives;
+    }
+}
+
 public class GameOverManager : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private SnakeManager snakeManager;
-    [SerializeField] private HomeHealthManager homeHealthManager;
-    [SerializeField] private GameOverDisplay gameOverDisplay;
-
-    public static event Action OnGameOver;
+    public static event Action<GameOverEventArgs> OnGameOver;
     public static event Action OnRevive;
 
     public static bool GameIsOver { get; private set; } = false;
 
-    private void Start()
+    private int availableRevives = 0;
+    private const int DEFAULT_AVAILABLE_REVIVES = 1;
+
+    private void Awake()
     {
-        snakeManager.OnHeadDestroyed += GameOver;
-        homeHealthManager.OnHealthZero += GameOver;
-        gameOverDisplay.OnReviveButtonClicked += Revive;
+        availableRevives = DEFAULT_AVAILABLE_REVIVES;
+    }
+
+    private void OnEnable()
+    {
+        GameIsOver = false;
+
+        SnakeManager.OnLastNodeDetatched += GameOver;
+        ReviveDisplay.OnReviveButtonClicked += Revive;
+    }
+
+    private void OnDisable()
+    {
+        SnakeManager.OnLastNodeDetatched -= GameOver;
+        ReviveDisplay.OnReviveButtonClicked -= Revive;
     }
 
     private void GameOver()
     {
         GameIsOver = true;
-        OnGameOver?.Invoke();
-        
+
+        var args = new GameOverEventArgs(availableRevives);
+
+        OnGameOver?.Invoke(args);
     }
 
     private void Revive()
     {
         GameIsOver = false;
+
+        availableRevives -= 1;
+
+        Debug.Log($"Player has revived. Remaining Revives: {availableRevives}");
         OnRevive?.Invoke();
     }
 }

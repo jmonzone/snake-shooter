@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4419348d6571e48c4b78a518dbe2a903, type: 3}
+  m_Name: Blaze Tower
+  m_EditorClassIdentifier: 
+  towerName: Blaze Tower
+  sprite: {fileID: 21300000, guid: df47abc5fec03499f94a15c1d8a19d98, type: 3}
+  description: Shoots a hot burning cannonball
+  prefab: {fileID: 5284046199165766626, guid: 7a99f9052640741a9ade04958c522bd7, type: 3}
+  price: 400
+  unlockPrice: 400

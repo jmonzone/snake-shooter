@@ -3,106 +3,80 @@ using UnityEngine;
 
 public class SnakeManager : MonoBehaviour
 {
-    private SnakeHead snakeHead;
-    private SnakeNode lastSnakeNode;
+    [Header("References")]
+    [SerializeField] private Transform snakeHead;
+    [SerializeField] private SnakeNode firstSnakeNode;
+    [SerializeField] private SnakeNode lastSnakeNode;
+    [SerializeField] private TargetFollower snakeTail;
 
-    public event Action OnHeadDestroyed;
-
-    private void Awake()
-    {
-        snakeHead = GetComponentInChildren<SnakeHead>();
-        lastSnakeNode = snakeHead;
-    }
+    public static event Action OnLastNodeDetatched;
 
     private void OnEnable()
     {
-        snakeHead.OnEnemyCollision += OnHeadCollision;
+        UpgradeDisplay.OnUpgradeSelected += AddTower;
         GameOverManager.OnRevive += OnRevive;
-        UpgradeDisplay.OnUpgradeSelected += AddSnakeTower;
     }
 
     private void OnDisable()
     {
-        snakeHead.OnEnemyCollision -= OnHeadCollision;
+        UpgradeDisplay.OnUpgradeSelected -= AddTower;
         GameOverManager.OnRevive -= OnRevive;
-        UpgradeDisplay.OnUpgradeSelected -= AddSnakeTower;
     }
 
+    private void AddTower(ScriptableTower tower)
+    {
+        var snakeNode = Instantiate(tower.Prefab, transform.position, Quaternion.identity, transform).GetComponent<SnakeNode>();
 
-    public void HitHead()
-    {
-        snakeHead.gameObject.SetActive(false);
-        OnHeadDestroyed?.Invoke();
+        Attach(snakeNode);
+        snakeNode.OnEnemyCollision += Detach;
     }
-    private void OnHeadCollision()
+
+    private void Attach(SnakeNode snakeNode)
     {
-        if (lastSnakeNode == snakeHead)
+        if (!firstSnakeNode)
         {
-            HitHead();
+            firstSnakeNode = snakeNode;
+            snakeNode.GetComponent<TargetFollower>().Target = snakeHead;
         }
         else
         {
-            lastSnakeNode.GetComponent<TowerDismantler>().Dismantle();
+            snakeNode.Next = lastSnakeNode;
+            snakeNode.GetComponent<TargetFollower>().Target = lastSnakeNode.transform;
         }
-    }
 
-    private void AddSnakeTower(Tower snakeTower)
-    {
-        var snakeFollower = Instantiate(snakeTower, transform.position, Quaternion.identity, transform).GetComponent<SnakeFollower>();
-        AttachToSnake(snakeFollower);
-        snakeFollower.gameObject.SetActive(true);
-
-        var towerDismantler = snakeFollower.GetComponent<TowerDismantler>();
-        towerDismantler.OnRepair += () => OnRepair(snakeFollower);
-        towerDismantler.OnDismantle += () => OnDismantle(snakeFollower);
-
-    }
-
-    private void AttachToSnake(SnakeNode snakeNode)
-    {
-        lastSnakeNode.previous = snakeNode;
-        snakeNode.next = lastSnakeNode;
-        snakeNode.previous = null;
-
-        var direction = lastSnakeNode.next ? (lastSnakeNode.transform.position - lastSnakeNode.next.transform.position).normalized : (Vector3)UnityEngine.Random.insideUnitCircle;
-        snakeNode.transform.position = lastSnakeNode.transform.position + direction * 0.5f;
-
+        snakeNode.gameObject.SetActive(true);
         lastSnakeNode = snakeNode;
+        snakeTail.Target = lastSnakeNode.transform;
     }
 
-    private void OnDismantle(SnakeFollower snakeFollower)
+    private void Detach()
     {
-        if (snakeFollower == lastSnakeNode)
+        lastSnakeNode.gameObject.SetActive(false);
+        
+        if (lastSnakeNode == firstSnakeNode)
         {
-            lastSnakeNode = snakeFollower.next;
-            lastSnakeNode.previous = null;
-        }
-        else if (snakeFollower.previous)
+            Debug.Log("Last tower has been detatched.");
+            OnLastNodeDetatched?.Invoke();
+        } else
         {
-            snakeFollower.next.previous = snakeFollower.previous;
-            snakeFollower.previous.next = snakeFollower.next;
+            lastSnakeNode = lastSnakeNode.Next;
+
+            var lastSnakeNodeFollower = lastSnakeNode.GetComponent<TargetFollower>();
+            snakeTail.Target = lastSnakeNode.transform;
+            snakeTail.transform.position = lastSnakeNode.transform.position + (lastSnakeNodeFollower.transform.position - lastSnakeNodeFollower.TargetPosition).normalized * 0.5f;
         }
 
-        snakeFollower.next = null;
-        snakeFollower.previous = null;
-    }
-
-    private void OnRepair(SnakeNode snakeNode)
-    {
-        AttachToSnake(snakeNode);
     }
 
     private void OnRevive()
     {
-        lastSnakeNode = snakeHead;
-        snakeHead.gameObject.SetActive(true);
-
-        foreach (SnakeNode snakeNode in transform.GetComponentsInChildren<SnakeNode>(includeInactive: true))
+        foreach (SnakeNode snakeNode in GetComponentsInChildren<SnakeNode>(true))
         {
-            if (snakeNode == snakeHead) continue;
-
             snakeNode.gameObject.SetActive(true);
-            snakeNode.GetComponent<TowerDismantler>().Repair();
+
+            if (snakeNode == firstSnakeNode) continue;
+
+            Attach(snakeNode);
         }
     }
 

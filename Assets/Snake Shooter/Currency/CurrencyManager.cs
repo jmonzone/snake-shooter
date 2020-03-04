@@ -1,48 +1,47 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CurrencyManager : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private SnakeHead snakeHead;
+    public static CurrencyManager Instance { get; private set; }
 
-    private AudioSource audioSource;
+    public int CurrencyCount { get; private set; }
 
-    private int currencyCount = 0;
+    private const int INITIAL_CURRENCY = 200;
+    private int currencyPerRound = INITIAL_CURRENCY;
 
-    public int CurrencyCount
+    private void OnEnable()
     {
-        get => currencyCount;
-        set
-        {
-            currencyCount = value;
-            PlayerPrefs.SetInt(PlayerPrefsKeys.CURRENCY_KEY, currencyCount);
-        }
+        Instance = this;
+
+        CurrencyCount = INITIAL_CURRENCY;
+
+        CurrencyObjectManager.OnCurrencyObjectCollected += OnCurrencyObjectCollected;
+        CurrencyObjectManager.OnAllCurrencyObjectsCollected += OnAllCurrencyObjectsCollected;
+        UpgradeDisplay.OnUpgradeSelected += OnUpgradeSelected;
     }
 
-
-    private void Awake()
+    private void OnDisable()
     {
-        if (PlayerPrefs.HasKey(PlayerPrefsKeys.CURRENCY_KEY))
-            CurrencyCount = PlayerPrefs.GetInt(PlayerPrefsKeys.CURRENCY_KEY);
+        Instance = null;
 
-        audioSource = GetComponent<AudioSource>();
+        CurrencyObjectManager.OnCurrencyObjectCollected -= OnCurrencyObjectCollected;
+        CurrencyObjectManager.OnAllCurrencyObjectsCollected += OnAllCurrencyObjectsCollected;
+        UpgradeDisplay.OnUpgradeSelected -= OnUpgradeSelected;
     }
 
-    private void Start()
-    {
-        snakeHead.OnCurrencyPickedUp += IncrementCoinCount;
-        snakeHead.OnCurrencyPickedUp += PlayCoinAudio;
-    }
-
-    private void IncrementCoinCount()
+    private void OnCurrencyObjectCollected()
     {
         CurrencyCount++;
     }
 
-    private void PlayCoinAudio()
+    private void OnAllCurrencyObjectsCollected()
     {
-        audioSource.Play();
+        CurrencyCount += currencyPerRound;
+        currencyPerRound++;
+    }
+
+    private void OnUpgradeSelected(ScriptableTower tower)
+    {
+        CurrencyCount -= tower.Price;
     }
 }

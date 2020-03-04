@@ -8,12 +8,12 @@ public class EnemyColorChanger : MonoBehaviour
    [SerializeField] private Color lowHealthColor;
    [SerializeField] private Color highHealthColor;
 
-    private Health health;
+    private EnemyHealth health;
     private SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
-        health = GetComponent<Health>();
+        health = GetComponent<EnemyHealth>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 

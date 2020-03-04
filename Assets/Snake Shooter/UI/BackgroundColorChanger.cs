@@ -1,29 +1,32 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BackgroundColorChanger : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private LevelManager levelManager;
+    private Renderer render;
 
-    [Header("Options")]
-    [SerializeField] private Color[] colors;
-
-    private void Start()
+    private void Awake()
     {
-        LevelManager.OnLevelChanged += OnLevelChanged;
-        Camera.main.backgroundColor = colors[0];
+        render = GetComponent<Renderer>();
     }
 
-    private void OnLevelChanged(int level)
+    private void OnEnable()
     {
-        for (int i = 0; i < colors.Length; i++)
-        {
-            if (level <= (i + 1) * 5)
-            {
-                Camera.main.backgroundColor = Color.Lerp(colors[i], colors[i + 1], (level % 5) / 5.0f);
-                return;
-            }
-        }
+        GameManager.OnCurrentLevelChanged += OnCurrentLevelChanged;
+        ChangeColor(GameManager.Instance.CurrentLevel.BackgroundColor);
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnCurrentLevelChanged -= OnCurrentLevelChanged;
+    }
+
+    private void OnCurrentLevelChanged(ScriptableLevel level)
+    {
+        ChangeColor(level.BackgroundColor);
+    }
+
+    private void ChangeColor(Color color)
+    {
+        render.material.color = color;
     }
 }
