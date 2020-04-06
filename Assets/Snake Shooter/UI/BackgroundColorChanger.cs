@@ -9,15 +9,15 @@ public class BackgroundColorChanger : MonoBehaviour
         render = GetComponent<Renderer>();
     }
 
-    private void OnEnable()
+    private void Start()
     {
-        GameManager.OnCurrentLevelChanged += OnCurrentLevelChanged;
+        GameManager.Instance.OnCurrentLevelChanged += OnCurrentLevelChanged;
         ChangeColor(GameManager.Instance.CurrentLevel.BackgroundColor);
     }
 
     private void OnDisable()
     {
-        GameManager.OnCurrentLevelChanged -= OnCurrentLevelChanged;
+        GameManager.Instance.OnCurrentLevelChanged -= OnCurrentLevelChanged;
     }
 
     private void OnCurrentLevelChanged(ScriptableLevel level)

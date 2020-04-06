@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UpgradeDisplay : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private GameObject display;
-    [SerializeField] private Button continueButton;
 
     private readonly List<UpgradeButton> upgradeButtons = new List<UpgradeButton>();
 
@@ -30,7 +28,7 @@ public class UpgradeDisplay : MonoBehaviour
 
     private void OnTutorialEnd()
     {
-        Invoke(nameof(Display), 1.0f);
+        Invoke(nameof(Display), 0.5f);
     }
 
     private void OnAllCurrencyObjectsCollected()
@@ -42,58 +40,47 @@ public class UpgradeDisplay : MonoBehaviour
     {
         Debug.Log("Displaying upgrades.");
         display.SetActive(true);
-        UpdateUpgradeDisplay();
-    }
-
-    private void UpdateUpgradeDisplay()
-    {
-        var towers = GameManager.Instance.AvailableTowers;
-        towers.Sort();
-
-        for (int i = 0; i < towers.Count; i++)
-        {
-            var tower = towers[i];
-            var button = upgradeButtons[i];
-
-            var purchasable = tower.Price <= CurrencyManager.Instance.CurrencyCount;
-
-            button.PurchaseButton.interactable = purchasable;
-
-            button.TowerNameText.text = tower.TowerName;
-            button.TowerImage.color = purchasable ? Color.white : new Color(255, 255, 255, 0.5f);
-        }
     }
 
     private void Init()
     {
+        //get all upgrade buttons in children
         GetComponentsInChildren(includeInactive: true, upgradeButtons);
+
+        //disable all upgrade buttons
         upgradeButtons.ForEach(button => button.gameObject.SetActive(false));
 
+        //get available towers and sort
         var towers = GameManager.Instance.AvailableTowers;
         towers.Sort();
 
-        for (int i = 0; i < towers.Count; i++)
+        for (int i = 0; i < towers.Count && i < upgradeButtons.Count; i++)
         {
             var tower = towers[i];
-            var button = upgradeButtons[i];
+            Debug.Log(tower);
+            var upgradeButton = upgradeButtons[i];
 
-            button.gameObject.SetActive(true);
+            upgradeButton.gameObject.SetActive(true);
 
-            button.PurchaseButton.onClick.AddListener(() =>
+            upgradeButton.Button.onClick.AddListener(() =>
             {
                 OnUpgradeSelected?.Invoke(tower);
-                UpdateUpgradeDisplay();
+                Display(false);
             });
 
-            button.TowerNameText.text = tower.TowerName;
-            button.TowerImage.sprite = tower.Sprite;
-            button.PriceText.text = tower.Price.ToString();
+            upgradeButton.TowerNameText.text = tower.TowerName;
+            upgradeButton.TowerImage.sprite = tower.Sprite;
         }
+    }
 
-        continueButton.onClick.AddListener(() =>
+    private void Display(bool show = true)
+    {
+        Debug.Log("Upgrade display: display = " + show);
+
+        display.gameObject.SetActive(show);
+        if (!show)
         {
-            display.gameObject.SetActive(false);
             OnUpgradeEnd?.Invoke();
-        });
+        }
     }
 }

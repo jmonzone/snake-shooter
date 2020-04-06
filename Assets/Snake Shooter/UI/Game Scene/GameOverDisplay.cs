@@ -8,7 +8,6 @@ public class GameOverDisplay : MonoBehaviour
 {
     [Header("Manager References")]
     [SerializeField] private LevelManager levelManager;
-    [SerializeField] private CurrencyManager currencyManager;
 
     [Header("UI References")]
     [SerializeField] private GameObject display;

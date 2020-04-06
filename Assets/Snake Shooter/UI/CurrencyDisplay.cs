@@ -8,10 +8,17 @@ public class CurrencyDisplay : MonoBehaviour
     private void OnEnable()
     {
         text = GetComponent<Text>();
+        UpdateDisplay(GameManager.Instance.CurrencyCount);
+        GameManager.Instance.OnCurrencyCountChanged += UpdateDisplay;
     }
 
-    private void Update()
+    private void OnDisable()
     {
-        text.text = CurrencyManager.Instance.CurrencyCount.ToString() ;
+        GameManager.Instance.OnCurrencyCountChanged -= UpdateDisplay;
+    }
+
+    private void UpdateDisplay(int count)
+    {
+        text.text = count.ToString();
     }
 }

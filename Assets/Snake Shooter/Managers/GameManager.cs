@@ -73,7 +73,7 @@ public class GameManager: MonoBehaviour
     }
 
     public event Action<int> OnCurrencyCountChanged;
-    public static event Action<ScriptableLevel> OnCurrentLevelChanged;
+    public event Action<ScriptableLevel> OnCurrentLevelChanged;
 
     private void Awake(){
 
@@ -81,6 +81,7 @@ public class GameManager: MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(this);
+            Debug.Log("Game manager initialized.");
         }
         else if (Instance)
         {
@@ -88,18 +89,23 @@ public class GameManager: MonoBehaviour
             return;
         }
 
+        InitAvailableTowers();
+
+        if (CurrencyCount == 0) CurrencyCount = startingCurrency;
+        if (CurrentLevel == null) CurrentLevel = startingLevel;
+    }
+
+    private void InitAvailableTowers()
+    {
         foreach (ScriptableTower unlockableTower in allUnlockableTowers)
         {
             //try loading from player prefs
             int i = PlayerPrefs.GetInt(unlockableTower.Key);
-            if (i == 1)
+            if (i == 1 && !AvailableTowers.Contains(unlockableTower))
             {
                 availableTowers.Add(unlockableTower);
             }
         }
-
-        if (CurrencyCount == 0) CurrencyCount = startingCurrency;
-        if (CurrentLevel == null) CurrentLevel = startingLevel;
     }
 
     public void AddAvailableTower(ScriptableTower tower)

@@ -7,10 +7,8 @@ public class UpgradeButton : MonoBehaviour
     [SerializeField] private Button purchaseButton;
     [SerializeField] private Text towerNameText;
     [SerializeField] private Image towerImage;
-    [SerializeField] private Text priceText;
 
-    public Button PurchaseButton => purchaseButton;
+    public Button Button => purchaseButton;
     public Text TowerNameText => towerNameText;
     public Image TowerImage => towerImage;
-    public Text PriceText => priceText;
 }

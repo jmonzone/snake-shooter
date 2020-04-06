@@ -56,6 +56,7 @@ public class CurrencyObjectManager : MonoBehaviour
 
     private void InvokeCurrencyCollected()
     {
+        GameManager.Instance.CurrencyCount++;
         audioSource.Play();
         OnCurrencyObjectCollected?.Invoke();
     }

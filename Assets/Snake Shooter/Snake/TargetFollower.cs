@@ -18,12 +18,8 @@ public class TargetFollower : ITargeter
         var direction = Target.position - transform.position;
         direction.Normalize();
 
-        var distance = Vector3.Distance(Target.transform.position, transform.position);
-
-        if (distance > followDistance)
-        {
-            transform.position += direction * speed * Time.deltaTime;
-        }
+        var targetPosition = Target.position - followDistance * direction;
+        transform.position = targetPosition;
 
         if (rotate)
         {

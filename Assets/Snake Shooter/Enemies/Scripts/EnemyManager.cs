@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    [Header("Options")]
-    [SerializeField] private float spawnDelay;
+    private float spawnDelay = 0;
 
     private ScriptableLevel currentLevel;
 
@@ -92,14 +91,14 @@ public class EnemyManager : MonoBehaviour
 
     private void OnRoundBegun(OnRoundBegunEventArgs args)
     {
-        spawnDelay = 1.0f / (0.5f + ((args.roundIndex) * SPAWN_DELAY_GROWTH_FACTOR));
+        //spawnDelay = 1.0f / (0.5f + ((args.roundIndex) * SPAWN_DELAY_GROWTH_FACTOR));
         StartCoroutine(EnemySpawnUpdate(args.roundIndex));
     }
 
     private IEnumerator EnemySpawnUpdate(int roundIndex)
     {
         Debug.Log("Spawning enemies.");
-        yield return new WaitForSeconds(INITIAL_SPAWN_DELAY);
+        //yield return new WaitForSeconds(INITIAL_SPAWN_DELAY);
 
         var currentRound = currentLevel.Rounds[roundIndex];
         foreach(EnemyWave wave in currentRound.Waves)
@@ -125,13 +124,25 @@ public class EnemyManager : MonoBehaviour
 
         } while (toSpawn.activeSelf);
 
-        float rand = UnityEngine.Random.Range(1, 10);
-        float spawnx = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * (rand / 10.0f), 0)).x;
-        float spawnY = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
-        toSpawn.transform.position = new Vector2(spawnx, spawnY);
+       
+        toSpawn.transform.position = SpawnPosition;
         toSpawn.GetComponent<TargetRotation>().RotateTransform.up = Vector3.down;
 
         toSpawn.gameObject.SetActive(true);
     }
 
+    private Vector3 SpawnPosition
+    {
+        get
+        {
+            //float rand = UnityEngine.Random.Range(1, 10);
+            //float x = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * (rand / 10.0f), 0)).x;
+            //float y = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
+            //var spawnPosition = new Vector2(x, y);
+
+            var spawnPosition = UnityEngine.Random.insideUnitCircle * 7.5f;
+
+            return spawnPosition;
+        }
+    }
 }

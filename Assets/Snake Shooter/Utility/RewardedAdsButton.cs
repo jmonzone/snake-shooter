@@ -7,9 +7,10 @@ using System;
 public class RewardedAdsButton : MonoBehaviour, IUnityAdsListener
 {
 
-#if UNITY_IOS
+//#if UNITY_IOS
+//#endif
     private string gameId = "3479909";
-#endif
+
     private string myPlacementId = Ads.REWARDED_AD;
 
     public Button Button { get; private set; }
